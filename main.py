@@ -39,8 +39,6 @@ def run_all(args):
 
 def parse_arguments():
 
-    print('parsing arguments')
-
     parsers = ['db_setup', 'run_search', 'post_process', 'run_all']
 
     def default_func(args):
@@ -72,6 +70,12 @@ def parse_db_setup(subparsers, parser_name):
 
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=db_setup)
+
+    parser.add_argument('--input', help='FASTA database (default: STDIN)')
+    parser.add_argument('--output', help='Prepared database (default: STDOUT)')
+
+    parser.add_argument('--verbose', help='Output detailed diagnostic information',
+                        action='store_true', default=False)
 
 
 def parse_run_msfragger(subparsers, parser_name):
