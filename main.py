@@ -2,6 +2,7 @@
 
 
 import argparse
+import sys
 
 import preprocessing.main
 import search.main
@@ -17,29 +18,35 @@ help_message = 'Author: {}\n Version: {}\n\n' \
 
 def db_setup(args):
 
-    preprocessing.main.main(args)
+    preprocessing.main.preprocess_database(args)
+
+
+def spectrum_setup(args):
+
+    preprocessing.main.preprocess_database(args)
 
 
 def run_search(args):
 
-    search.main.main(args)
+    print('Not implemented yet!')
+    sys.exit(1)
 
 
 def post_process(args):
 
-    postprocessing.main.main(args)
+    print('Not implemented yet!')
+    sys.exit(1)
 
 
 def run_all(args):
 
-    preprocessing.main.main(args)
-    search.main.main(args)
-    postprocessing.main.main(args)
+    print('Not implemented yet! Will execute all steps')
+    sys.exit(1)
 
 
 def parse_arguments():
 
-    parsers = ['db_setup', 'run_search', 'post_process', 'run_all']
+    parsers = ['db_setup', 'spectrum_setup', 'run_search', 'post_process', 'run_all']
 
     def default_func(args):
         print('Proteomics search engine automation, version {}'.format(VERSION))
@@ -71,10 +78,22 @@ def parse_db_setup(subparsers, parser_name):
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=db_setup)
 
-    parser.add_argument('--input', help='FASTA database (default: STDIN)')
-    parser.add_argument('--output', help='Prepared database (default: STDOUT)')
+    parser.add_argument('-i', '--input', help='FASTA database (default: STDIN)')
+    parser.add_argument('-o', '--output', help='Prepared database (default: STDOUT)')
 
-    parser.add_argument('--verbose', help='Output detailed diagnostic information',
+    parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
+                        action='store_true', default=False)
+
+
+def parse_spectrum_setup(subparsers, parser_name):
+
+    parser = subparsers.add_parser(parser_name)
+    parser.set_defaults(func=spectrum_setup)
+
+    parser.add_argument('-i', '--input', help='mzML raw file')
+    parser.add_argument('-o', '--output', help='mgf processed file')
+
+    parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
                         action='store_true', default=False)
 
 
