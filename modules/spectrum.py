@@ -1,9 +1,12 @@
-
-import utils.utils as utils
-
+from modules import utils as utils
 
 MZML_TO_MGF_COMMAND = '{openms_file_converter} -in {in_fp} -out {out_fp} -in_type {in_type} -out_type {out_type}'
 OPENMS_FILE_CONVERTER = 'binaries/FileConverter'
+
+
+def preprocess_spectrum(args):
+
+    main(args.input, args.output, verbose=args.verbose)
 
 
 def main(in_fp, out_fp, verbose=False):

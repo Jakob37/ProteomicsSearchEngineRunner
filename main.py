@@ -2,12 +2,12 @@
 
 
 import argparse
-import sys
 
-import preprocessing.main
-import search.main
-import postprocessing.main
-import run_all_mod.main
+import modules.database
+import modules.run_search
+import modules.postprocessing
+import modules.runall
+import modules.spectrum
 
 VERSION = '0.1.0'
 
@@ -19,36 +19,36 @@ help_message = 'Author: {}\nVersion: {}\n\n' \
 
 def db_setup(args):
 
-    preprocessing.main.preprocess_database(args)
+    modules.database.preprocess_database(args)
 
 
 def spectrum_setup(args):
 
-    preprocessing.main.preprocess_spectrum(args)
+    modules.spectrum.preprocess_spectrum(args)
 
 
 def run_search(args):
 
-    search.main.run_msfragger(database_fp=args.database,
-                              spectrum_fp=args.spectrum,
-                              threads=args.threads,
-                              precursor_mass_tolerance=args.precursor_mass_tolerance,
-                              precursor_mass_units=args.precursor_mass_units,
-                              precursor_true_tolerance=args.precursor_true_tolerance,
-                              precursor_true_units=args.precursor_true_units,
-                              fragment_mass_tolerance=args.fragment_mass_tolerance,
-                              fragment_mass_units=args.fragment_mass_units,
-                              verbose=args.verbose)
+    modules.run_search.run_msfragger(database_fp=args.database,
+                                     spectrum_fp=args.spectrum,
+                                     threads=args.threads,
+                                     precursor_mass_tolerance=args.precursor_mass_tolerance,
+                                     precursor_mass_units=args.precursor_mass_units,
+                                     precursor_true_tolerance=args.precursor_true_tolerance,
+                                     precursor_true_units=args.precursor_true_units,
+                                     fragment_mass_tolerance=args.fragment_mass_tolerance,
+                                     fragment_mass_units=args.fragment_mass_units,
+                                     verbose=args.verbose)
 
 
 def post_process(args):
 
-    postprocessing.main.main(args.input, args.output, verbose=args.verbose)
+    modules.postprocessing.main(args.input, args.output, verbose=args.verbose)
 
 
 def run_all(args):
 
-    run_all_mod.main.main(args)
+    modules.runall.main(args)
 
 
 def parse_arguments():

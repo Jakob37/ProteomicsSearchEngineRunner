@@ -1,5 +1,5 @@
-from search.params_template import PARAMS_TEMPLATE
-from utils import utils
+from modules import utils
+from modules.params_template import PARAMS_TEMPLATE
 
 PARAM_FP = 'params/msfragger.param'
 MSFRAGGER_PATH = 'binaries/MSFragger.jar'
@@ -25,10 +25,7 @@ def run_msfragger(database_fp, spectrum_fp, threads, precursor_mass_tolerance,
         out_fh.write(params_file_string)
 
     command_list = setup_command_list(MSFRAGGER_PATH, PARAM_FP, spectrum_fp)
-
-    print('--- Executing MSFragger ---')
     utils.run_command(command_list, verbose=verbose)
-    print('--- MSFragger processing done! ---')
 
 
 def setup_command_list(binary_fp, param_fp, mzml_fp):

@@ -3,6 +3,11 @@ from Bio import SeqIO
 import random
 
 
+def preprocess_database(args):
+
+    main(args.input, args.output, args.verbose)
+
+
 def main(input_fp, output_fp, verbose):
 
     orig_fastas = read_db_fasta(input_fp, verbose=verbose)
