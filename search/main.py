@@ -1,6 +1,10 @@
 from search.params_template import PARAMS_TEMPLATE
+from utils import utils
 
 PARAM_FP = 'params/msfragger.param'
+MSFRAGGER_PATH = 'binaries/MSFragger.jar'
+
+MSFRAGGER_COMMAND_TEMPLATE = 'java -jar {binary_fp} {param} {mzml}'
 
 
 def run_msfragger(args):
@@ -18,9 +22,20 @@ def run_msfragger(args):
     with open(PARAM_FP, 'w') as out_fh:
         out_fh.write(params_file_string)
 
+    command_list = setup_command_list(MSFRAGGER_PATH, PARAM_FP, args.spectrum)
 
-def setup_command_list():
-    pass
+    print('--- Executing MSFragger ---')
+    utils.run_command(command_list, verbose=args.verbose)
+    print('--- MSFragger processing done! ---')
+
+
+def setup_command_list(binary_fp, param_fp, mzml_fp):
+
+    command_string = MSFRAGGER_COMMAND_TEMPLATE.format(binary_fp=binary_fp,
+                                                       param=param_fp,
+                                                       mzml=mzml_fp)
+
+    return command_string.split(' ')
 
 
 def generate_params_file_string(template, database,
@@ -56,4 +71,3 @@ def get_mass_unit_from_string(mass_string):
         return 1
     else:
         raise ValueError('Unknown mass string: {}, only accepted are "daltons" and "ppm"')
-
