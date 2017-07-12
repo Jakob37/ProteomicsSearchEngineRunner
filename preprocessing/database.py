@@ -3,13 +3,13 @@ from Bio import SeqIO
 import random
 
 
-def main(args):
+def main(input_fp, output_fp, verbose):
 
-    orig_fastas = read_db_fasta(args.input, verbose=args.verbose)
+    orig_fastas = read_db_fasta(input_fp, verbose=verbose)
     decoy_fastas = generate_decoy_sequences(orig_fastas, decoy_prefix='r', decoy_type='reverse')
-    write_final_fasta(orig_fastas, decoy_fastas, out_fp=args.output)
+    write_final_fasta(orig_fastas, decoy_fastas, out_fp=output_fp)
 
-    if args.verbose:
+    if verbose:
         print('{} sequences and {} decoys written'.format(len(orig_fastas), len(decoy_fastas)), file=sys.stderr)
 
 

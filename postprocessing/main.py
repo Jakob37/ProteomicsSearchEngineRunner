@@ -2,11 +2,12 @@ import utils.utils as utils
 
 
 PEPXML_TO_IDXML_COMMAND = '{openms_id_converter} -in {in_fp} -out {out_fp} -out_type {out_type}'
+OPENMS_ID_CONVERTER = 'binaries/IDFileConverter'
 
 
-def main(in_fp, out_fp, file_converter_fp, verbose=False):
+def main(in_fp, out_fp, verbose=False):
 
-    command_list = setup_command_list(in_fp, out_fp, PEPXML_TO_IDXML_COMMAND, file_converter_fp)
+    command_list = setup_command_list(in_fp, out_fp, PEPXML_TO_IDXML_COMMAND, OPENMS_ID_CONVERTER)
     utils.run_command(command_list, verbose=verbose)
 
 

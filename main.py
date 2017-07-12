@@ -7,6 +7,7 @@ import sys
 import preprocessing.main
 import search.main
 import postprocessing.main
+import run_all_mod.main
 
 VERSION = '0.1.0'
 
@@ -14,9 +15,6 @@ author = 'Jakob Willforss'
 help_message = 'Author: {}\nVersion: {}\n\n' \
                'Automation wrapper for MSFragger' \
     .format(author, VERSION)
-
-
-OPENMS_ID_CONVERTER = 'binaries/IDFileConverter'
 
 
 def db_setup(args):
@@ -31,18 +29,26 @@ def spectrum_setup(args):
 
 def run_search(args):
 
-    search.main.run_msfragger(args)
+    search.main.run_msfragger(database_fp=args.database,
+                              spectrum_fp=args.spectrum,
+                              threads=args.threads,
+                              precursor_mass_tolerance=args.precursor_mass_tolerance,
+                              precursor_mass_units=args.precursor_mass_units,
+                              precursor_true_tolerance=args.precursor_true_tolerance,
+                              precursor_true_units=args.precursor_true_units,
+                              fragment_mass_tolerance=args.fragment_mass_tolerance,
+                              fragment_mass_units=args.fragment_mass_units,
+                              verbose=args.verbose)
 
 
 def post_process(args):
 
-    postprocessing.main.main(args.input, args.output, OPENMS_ID_CONVERTER, verbose=args.verbose)
+    postprocessing.main.main(args.input, args.output, verbose=args.verbose)
 
 
 def run_all(args):
 
-    print('Not implemented yet! Will execute all steps')
-    sys.exit(1)
+    run_all_mod.main.main(args)
 
 
 def parse_arguments():
@@ -73,6 +79,20 @@ def parse_run_all(subparsers, parser_name):
 
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=run_all)
+
+    parser.add_argument('--database', help='FASTA formatted protein database')
+    parser.add_argument('--spectrum', help='Search spectrum in mzML format')
+    parser.add_argument('--threads', type=int, default=1)
+
+    parser.add_argument('--precursor_mass_tolerance', type=int, default=500)
+    parser.add_argument('--precursor_mass_units', default='daltons')
+    parser.add_argument('--precursor_true_tolerance', type=int, default=20)
+    parser.add_argument('--precursor_true_units', default='ppm')
+    parser.add_argument('--fragment_mass_tolerance', type=int, default=20)
+    parser.add_argument('--fragment_mass_units', default='ppm')
+
+    parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
+                        action='store_true', default=False)
 
 
 def parse_db_setup(subparsers, parser_name):

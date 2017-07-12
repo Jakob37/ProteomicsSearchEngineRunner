@@ -3,29 +3,31 @@ from utils import utils
 
 PARAM_FP = 'params/msfragger.param'
 MSFRAGGER_PATH = 'binaries/MSFragger.jar'
-
 MSFRAGGER_COMMAND_TEMPLATE = 'java -jar {binary_fp} {param} {mzml}'
 
 
-def run_msfragger(args):
+def run_msfragger(database_fp, spectrum_fp, threads, precursor_mass_tolerance,
+                  precursor_mass_units, precursor_true_tolerance,
+                  precursor_true_units, fragment_mass_tolerance,
+                  fragment_mass_units, verbose):
 
     params_file_string = generate_params_file_string(PARAMS_TEMPLATE,
-                                                     args.database,
-                                                     threads=args.threads,
-                                                     precursor_mass_tolerance=args.precursor_mass_tolerance,
-                                                     precursor_mass_units=args.precursor_mass_units,
-                                                     precursor_true_tolerance=args.precursor_true_tolerance,
-                                                     precursor_true_units=args.precursor_true_units,
-                                                     fragment_mass_tolerance=args.fragment_mass_tolerance,
-                                                     fragment_mass_units=args.fragment_mass_units)
+                                                     database_fp,
+                                                     threads=threads,
+                                                     precursor_mass_tolerance=precursor_mass_tolerance,
+                                                     precursor_mass_units=precursor_mass_units,
+                                                     precursor_true_tolerance=precursor_true_tolerance,
+                                                     precursor_true_units=precursor_true_units,
+                                                     fragment_mass_tolerance=fragment_mass_tolerance,
+                                                     fragment_mass_units=fragment_mass_units)
 
     with open(PARAM_FP, 'w') as out_fh:
         out_fh.write(params_file_string)
 
-    command_list = setup_command_list(MSFRAGGER_PATH, PARAM_FP, args.spectrum)
+    command_list = setup_command_list(MSFRAGGER_PATH, PARAM_FP, spectrum_fp)
 
     print('--- Executing MSFragger ---')
-    utils.run_command(command_list, verbose=args.verbose)
+    utils.run_command(command_list, verbose=verbose)
     print('--- MSFragger processing done! ---')
 
 
