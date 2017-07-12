@@ -11,7 +11,7 @@ import postprocessing.main
 VERSION = '0.1.0'
 
 author = 'Jakob Willforss'
-help_message = 'Author: {}\n Version: {}\n\n' \
+help_message = 'Author: {}\nVersion: {}\n\n' \
                'Automation wrapper for MSFragger' \
     .format(author, VERSION)
 
@@ -23,13 +23,12 @@ def db_setup(args):
 
 def spectrum_setup(args):
 
-    preprocessing.main.preprocess_database(args)
+    preprocessing.main.preprocess_spectrum(args)
 
 
 def run_search(args):
 
-    print('Not implemented yet!')
-    sys.exit(1)
+    search.main.run_msfragger(args)
 
 
 def post_process(args):
@@ -59,9 +58,10 @@ def parse_arguments():
     subparsers = parser.add_subparsers(help='Commands: {}'.format(' '.join(parsers)))
 
     parse_db_setup(subparsers, parsers[0])
-    parse_run_msfragger(subparsers, parsers[1])
-    parse_postproc(subparsers, parsers[2])
-    parse_run_all(subparsers, parsers[3])
+    parse_spectrum_setup(subparsers, parsers[1])
+    parse_run_msfragger(subparsers, parsers[2])
+    parse_postproc(subparsers, parsers[3])
+    parse_run_all(subparsers, parsers[4])
 
     args = parser.parse_args()
     args.func(args)
@@ -90,8 +90,8 @@ def parse_spectrum_setup(subparsers, parser_name):
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=spectrum_setup)
 
-    parser.add_argument('-i', '--input', help='mzML raw file')
-    parser.add_argument('-o', '--output', help='mgf processed file')
+    parser.add_argument('-i', '--input', help='mzML raw file (default: STDIN)')
+    parser.add_argument('-o', '--output', help='mgf processed file (default: STDOUT)')
 
     parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
                         action='store_true', default=False)

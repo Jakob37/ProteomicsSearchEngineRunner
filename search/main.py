@@ -1,5 +1,5 @@
 
 
-def main(args):
+def run_msfragger(args):
     print('main')
 

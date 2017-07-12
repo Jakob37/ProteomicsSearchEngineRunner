@@ -12,6 +12,6 @@ def preprocess_database(args):
 
 def preprocess_spectrum(args):
 
-    preprocessing.spectrum.main(args)
+    preprocessing.spectrum.main(args.input, args.output, OPENMS_FILE_CONVERTER, verbose=args.verbose)
 
 
