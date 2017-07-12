@@ -16,6 +16,9 @@ help_message = 'Author: {}\nVersion: {}\n\n' \
     .format(author, VERSION)
 
 
+OPENMS_ID_CONVERTER = 'binaries/IDFileConverter'
+
+
 def db_setup(args):
 
     preprocessing.main.preprocess_database(args)
@@ -33,8 +36,7 @@ def run_search(args):
 
 def post_process(args):
 
-    print('Not implemented yet!')
-    sys.exit(1)
+    postprocessing.main.main(args.input, args.output, OPENMS_ID_CONVERTER, verbose=args.verbose)
 
 
 def run_all(args):
@@ -123,6 +125,12 @@ def parse_postproc(subparsers, parser_name):
 
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=post_process)
+
+    parser.add_argument('-i', '--input', help='pepXML identification format', required=True)
+    parser.add_argument('-o', '--output', help='idXML identification format', required=True)
+
+    parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
+                        action='store_true', default=False)
 
 
 if __name__ == '__main__':

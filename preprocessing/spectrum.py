@@ -13,10 +13,12 @@ def main(in_fp, out_fp, file_converter_fp, verbose=False):
 
 def setup_command_list(in_fp, out_fp, command_template, file_converter_fp):
 
-    command_string = command_template.format(openms_file_converter=file_converter_fp,
-                                             in_fp=in_fp,
-                                             out_fp=out_fp,
-                                             in_type='mzML',
-                                             out_type='mgf')
+    command_string = command_template.format(
+        openms_file_converter=file_converter_fp,
+        in_fp=in_fp,
+        out_fp=out_fp,
+        in_type='mzML',
+        out_type='mgf'
+    )
 
     return command_string.split(' ')
