@@ -102,6 +102,22 @@ def parse_run_msfragger(subparsers, parser_name):
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=run_search)
 
+    parser.add_argument('--database', required=True, help='Fasta file containing database')
+    parser.add_argument('--spectrum', required=True, help='MGF file containing spectrum to search')
+    parser.add_argument('-o', '--output')
+
+    parser.add_argument('--threads', type=int, default=1)
+
+    parser.add_argument('--precursor_mass_tolerance', type=int, default=500)
+    parser.add_argument('--precursor_mass_units', default='daltons')
+    parser.add_argument('--precursor_true_tolerance', type=int, default=20)
+    parser.add_argument('--precursor_true_units', default='ppm')
+    parser.add_argument('--fragment_mass_tolerance', type=int, default=20)
+    parser.add_argument('--fragment_mass_units', default='ppm')
+
+    parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
+                        action='store_true', default=False)
+
 
 def parse_postproc(subparsers, parser_name):
 

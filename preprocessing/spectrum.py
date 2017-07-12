@@ -7,8 +7,6 @@ MZML_TO_MGF_COMMAND = '{openms_file_converter} -in {in_fp} -out {out_fp} -in_typ
 
 def main(in_fp, out_fp, file_converter_fp, verbose=False):
 
-    print('Spectrum main')
-
     command_list = setup_command_list(in_fp, out_fp, MZML_TO_MGF_COMMAND, file_converter_fp)
     utils.run_command(command_list, verbose=verbose)
 
