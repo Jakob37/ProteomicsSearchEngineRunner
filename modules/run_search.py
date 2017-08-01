@@ -4,7 +4,7 @@ import sys
 from modules import utils
 from modules.params_template import PARAMS_TEMPLATE
 
-PARAM_FP = 'params/msfragger.param'
+# PARAM_FP = 'params/msfragger.param'
 MSFRAGGER_COMMAND_TEMPLATE = 'java -jar {msfragger_jar} {param} {mzml}'
 
 
@@ -29,11 +29,12 @@ def run_msfragger(msfragger_jar, database_fp, spectrum_fp, out_fp, threads, prec
                                                      fragment_mass_tolerance=fragment_mass_tolerance,
                                                      fragment_mass_units=fragment_mass_units)
 
-    print('#####  Writing parameter file to {}  #####'.format(PARAM_FP))
-    with open(PARAM_FP, 'w') as out_fh:
+    param_fp = spectrum_fp + '.param'
+    print('#####  Writing parameter file to {}  #####'.format(param_fp))
+    with open(param_fp, 'w') as out_fh:
         out_fh.write(params_file_string)
 
-    command_list = setup_command_list(msfragger_jar, PARAM_FP, spectrum_fp)
+    command_list = setup_command_list(msfragger_jar, param_fp, spectrum_fp)
     utils.run_command(command_list, verbose=verbose)
 
     if not os.path.isfile(orig_out_fp):
