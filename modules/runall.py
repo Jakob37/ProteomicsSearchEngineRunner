@@ -21,8 +21,10 @@ def main(args):
     modules.database.main(raw_database, processed_database, args.verbose)
 
     print('######  Executing MSFragger run  ######')
-    modules.run_search.run_msfragger(database_fp=processed_database,
+    modules.run_search.run_msfragger(msfragger_jar=args.msfragger_jar,
+                                     database_fp=processed_database,
                                      spectrum_fp=spectrum,
+                                     out_fp=args.output,
                                      threads=threads,
                                      precursor_mass_tolerance=args.precursor_mass_tolerance,
                                      precursor_mass_units=args.precursor_mass_units,

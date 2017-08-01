@@ -29,8 +29,10 @@ def spectrum_setup(args):
 
 def run_search(args):
 
-    modules.run_search.run_msfragger(database_fp=args.database,
+    modules.run_search.run_msfragger(msfragger_jar=args.msfragger_jar,
+                                     database_fp=args.database,
                                      spectrum_fp=args.spectrum,
+                                     out_fp=args.output,
                                      threads=args.threads,
                                      precursor_mass_tolerance=args.precursor_mass_tolerance,
                                      precursor_mass_units=args.precursor_mass_units,
@@ -38,7 +40,8 @@ def run_search(args):
                                      precursor_true_units=args.precursor_true_units,
                                      fragment_mass_tolerance=args.fragment_mass_tolerance,
                                      fragment_mass_units=args.fragment_mass_units,
-                                     verbose=args.verbose)
+                                     verbose=args.verbose,
+                                     force=args.force)
 
 
 def post_process(args):
@@ -83,6 +86,9 @@ def parse_run_all(subparsers, parser_name):
     parser.add_argument('--database', help='FASTA formatted protein database')
     parser.add_argument('--spectrum', help='Search spectrum in mzML format')
     parser.add_argument('--threads', type=int, default=1)
+
+    parser.add_argument('--openms_bin', help='Path to OpenMS binary files', required=True)
+    parser.add_argument('--msfragger_jar', help='Path to MSFragger jar-file', required=True)
 
     parser.add_argument('--precursor_mass_tolerance', type=int, default=500)
     parser.add_argument('--precursor_mass_units', default='daltons')
@@ -130,12 +136,16 @@ def parse_run_msfragger(subparsers, parser_name):
 
     parser.add_argument('--threads', type=int, default=1)
 
+    parser.add_argument('--msfragger_jar', help='Path to MSFragger jar-file', required=True)
+
     parser.add_argument('--precursor_mass_tolerance', type=int, default=500)
     parser.add_argument('--precursor_mass_units', default='daltons')
     parser.add_argument('--precursor_true_tolerance', type=int, default=20)
     parser.add_argument('--precursor_true_units', default='ppm')
     parser.add_argument('--fragment_mass_tolerance', type=int, default=20)
     parser.add_argument('--fragment_mass_units', default='ppm')
+
+    parser.add_argument('--force', help='Force overwrite if output exists', default=False, action='store_true')
 
     parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
                         action='store_true', default=False)

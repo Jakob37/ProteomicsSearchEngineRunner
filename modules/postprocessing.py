@@ -1,7 +1,7 @@
 from modules import utils as utils
 
 PEPXML_TO_IDXML_COMMAND = '{openms_id_converter} -in {in_fp} -out {out_fp} -out_type {out_type}'
-OPENMS_ID_CONVERTER = 'binaries/IDFileConverter'
+OPENMS_ID_CONVERTER = '{openms_bin}/IDFileConverter'
 
 
 def main(in_fp, out_fp, verbose=False):
