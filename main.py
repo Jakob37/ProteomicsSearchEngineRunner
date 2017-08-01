@@ -31,7 +31,7 @@ def run_search(args):
 
     modules.run_search.run_msfragger(msfragger_jar=args.msfragger_jar,
                                      database_fp=args.database,
-                                     spectrum_fp=args.spectrum,
+                                     spectrum_fp=args.input,
                                      out_fp=args.output,
                                      threads=args.threads,
                                      precursor_mass_tolerance=args.precursor_mass_tolerance,
@@ -46,7 +46,7 @@ def run_search(args):
 
 def post_process(args):
 
-    modules.postprocessing.main(args.input, args.output, verbose=args.verbose)
+    modules.postprocessing.main(args.input, args.output, args.openms_bin, verbose=args.verbose)
 
 
 def run_all(args):
@@ -83,9 +83,10 @@ def parse_run_all(subparsers, parser_name):
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=run_all)
 
-    parser.add_argument('--database', help='FASTA formatted protein database')
-    parser.add_argument('--spectrum', help='Search spectrum in mzML format')
+    parser.add_argument('--database', '--db', help='FASTA formatted protein database')
+    parser.add_argument('--spectrum', '--input', '-i', help='Search spectrum in mzML format')
     parser.add_argument('--threads', type=int, default=1)
+    parser.add_argument('--output', '-o')
 
     parser.add_argument('--openms_bin', help='Path to OpenMS binary files', required=True)
     parser.add_argument('--msfragger_jar', help='Path to MSFragger jar-file', required=True)
@@ -121,6 +122,8 @@ def parse_spectrum_setup(subparsers, parser_name):
     parser.add_argument('-i', '--input', help='mzML raw file (default: STDIN)')
     parser.add_argument('-o', '--output', help='mgf processed file (default: STDOUT)')
 
+    parser.add_argument('--openms_bin', help='Path to OpenMS binaries directory', required=True)
+
     parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
                         action='store_true', default=False)
 
@@ -130,9 +133,9 @@ def parse_run_msfragger(subparsers, parser_name):
     parser = subparsers.add_parser(parser_name)
     parser.set_defaults(func=run_search)
 
-    parser.add_argument('--database', required=True, help='Fasta file containing database')
-    parser.add_argument('--spectrum', required=True, help='MGF file containing spectrum to search')
+    parser.add_argument('--input', '-i', '--spectrum', required=True, help='MGF file containing spectrum to search')
     parser.add_argument('-o', '--output')
+    parser.add_argument('--database', '--db', required=True, help='Fasta file containing database')
 
     parser.add_argument('--threads', type=int, default=1)
 
@@ -158,6 +161,8 @@ def parse_postproc(subparsers, parser_name):
 
     parser.add_argument('-i', '--input', help='pepXML identification format', required=True)
     parser.add_argument('-o', '--output', help='idXML identification format', required=True)
+
+    parser.add_argument('--openms_bin', help='Path to OpenMS binaries', required=True)
 
     parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
                         action='store_true', default=False)

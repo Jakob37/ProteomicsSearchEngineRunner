@@ -4,19 +4,16 @@ PEPXML_TO_IDXML_COMMAND = '{openms_id_converter} -in {in_fp} -out {out_fp} -out_
 OPENMS_ID_CONVERTER = '{openms_bin}/IDFileConverter'
 
 
-def main(in_fp, out_fp, verbose=False):
+def main(in_fp, out_fp, openms_bin, verbose=False):
 
-    command_list = setup_command_list(in_fp, out_fp, PEPXML_TO_IDXML_COMMAND, OPENMS_ID_CONVERTER)
-    utils.run_command(command_list, verbose=verbose)
+    openms_command = OPENMS_ID_CONVERTER.format(openms_bin=openms_bin)
 
-
-def setup_command_list(in_fp, out_fp, command_template, id_converter_fp):
-
-    command_string = command_template.format(
-        openms_id_converter=id_converter_fp,
+    command_string = PEPXML_TO_IDXML_COMMAND.format(
+        openms_id_converter=openms_command,
         in_fp=in_fp,
         out_fp=out_fp,
         out_type='idXML'
     )
 
-    return command_string.split(' ')
+    command_list = command_string.split(' ')
+    utils.run_command(command_list, verbose=verbose)

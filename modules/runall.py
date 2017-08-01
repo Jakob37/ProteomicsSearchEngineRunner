@@ -35,6 +35,6 @@ def main(args):
                                      verbose=verbose)
 
     print('######  Parsing MSFragger output  ######')
-    modules.postprocessing.main(msfragger_result, formatted_result)
+    modules.postprocessing.main(msfragger_result, formatted_result, args.openms_bin)
 
     print('######  All done!  ######')
