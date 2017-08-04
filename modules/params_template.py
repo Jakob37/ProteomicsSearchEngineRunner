@@ -36,7 +36,7 @@ output_format = pepXML				   #pepXML or tsv
 output_report_topN = 1
 output_max_expect = 50
 
-precursor_charge = 0 0                 # precursor charge range to analyze; does not override any existing charge; 0 as 1st entry ignores parameter
+precursor_charge = {min_charge} {max_charge}                 # precursor charge range to analyze; does not override any existing charge; 0 as 1st entry ignores parameter
 override_charge = 0                    # 0=no, 1=yes to override existing precursor charge states with precursor_charge parameter
 
 digest_min_length = 7

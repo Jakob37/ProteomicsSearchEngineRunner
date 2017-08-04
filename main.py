@@ -40,6 +40,8 @@ def run_search(args):
                                      precursor_true_units=args.precursor_true_units,
                                      fragment_mass_tolerance=args.fragment_mass_tolerance,
                                      fragment_mass_units=args.fragment_mass_units,
+                                     min_charge=args.min_charge,
+                                     max_charge=args.max_charge,
                                      verbose=args.verbose,
                                      force=args.force)
 
@@ -147,6 +149,9 @@ def parse_run_msfragger(subparsers, parser_name):
     parser.add_argument('--precursor_true_units', default='ppm')
     parser.add_argument('--fragment_mass_tolerance', type=int, default=20)
     parser.add_argument('--fragment_mass_units', default='ppm')
+
+    parser.add_argument('--min_charge', type=int, default=0, help='Leave min at 0 for no filtering')
+    parser.add_argument('--max_charge', type=int, default=0)
 
     parser.add_argument('--force', help='Force overwrite if output exists', default=False, action='store_true')
 

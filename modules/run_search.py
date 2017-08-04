@@ -11,7 +11,7 @@ MSFRAGGER_COMMAND_TEMPLATE = 'java -jar {msfragger_jar} {param} {mzml}'
 def run_msfragger(msfragger_jar, database_fp, spectrum_fp, out_fp, threads, precursor_mass_tolerance,
                   precursor_mass_units, precursor_true_tolerance,
                   precursor_true_units, fragment_mass_tolerance,
-                  fragment_mass_units, verbose, force=False):
+                  fragment_mass_units, min_charge, max_charge, verbose, force=False):
 
     orig_out_fp = get_original_output_fp(spectrum_fp)
     if not force and os.path.isfile(orig_out_fp):
@@ -27,7 +27,9 @@ def run_msfragger(msfragger_jar, database_fp, spectrum_fp, out_fp, threads, prec
                                                      precursor_true_tolerance=precursor_true_tolerance,
                                                      precursor_true_units=precursor_true_units,
                                                      fragment_mass_tolerance=fragment_mass_tolerance,
-                                                     fragment_mass_units=fragment_mass_units)
+                                                     fragment_mass_units=fragment_mass_units,
+                                                     min_charge=min_charge,
+                                                     max_charge=max_charge)
 
     param_fp = spectrum_fp + '.param'
     print('#####  Writing parameter file to {}  #####'.format(param_fp))
@@ -67,7 +69,9 @@ def generate_params_file_string(template, database,
                                 precursor_true_tolerance=20,
                                 precursor_true_units='ppm',
                                 fragment_mass_tolerance=20,
-                                fragment_mass_units='ppm'):
+                                fragment_mass_units='ppm',
+                                min_charge=0,
+                                max_charge=0):
 
     precursor_mass_units_int = get_mass_unit_from_string(precursor_mass_units)
     precursor_true_units_int = get_mass_unit_from_string(precursor_true_units)
@@ -80,7 +84,9 @@ def generate_params_file_string(template, database,
                                         precursor_true_tolerance=precursor_true_tolerance,
                                         precursor_true_units_int=precursor_true_units_int,
                                         fragment_mass_tolerance=fragment_mass_tolerance,
-                                        fragment_mass_units_int=fragment_mass_units_int)
+                                        fragment_mass_units_int=fragment_mass_units_int,
+                                        min_charge=min_charge,
+                                        max_charge=max_charge)
 
     return prepared_template
 
