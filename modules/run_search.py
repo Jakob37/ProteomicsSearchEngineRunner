@@ -65,7 +65,7 @@ def setup_command_list(msfragger_jar, param_fp, mzml_fp):
 def generate_params_file_string(template, database,
                                 threads=1,
                                 precursor_mass_tolerance=500,
-                                precursor_mass_units='daltons',
+                                precursor_mass_units='Da',
                                 precursor_true_tolerance=20,
                                 precursor_true_units='ppm',
                                 fragment_mass_tolerance=20,
@@ -93,10 +93,10 @@ def generate_params_file_string(template, database,
 
 def get_mass_unit_from_string(mass_string):
 
-    if mass_string == 'daltons':
+    if mass_string == 'Da':
         return 0
     elif mass_string == 'ppm':
         return 1
     else:
-        raise ValueError('Unknown mass string: {}, only accepted are "daltons" and "ppm"')
+        raise ValueError('Unknown mass string: {}, only accepted are "daltons" and "ppm"'.format(mass_string))
 

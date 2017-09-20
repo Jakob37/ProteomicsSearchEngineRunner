@@ -93,12 +93,7 @@ def parse_run_all(subparsers, parser_name):
     parser.add_argument('--openms_bin', help='Path to OpenMS binary files', required=True)
     parser.add_argument('--msfragger_jar', help='Path to MSFragger jar-file', required=True)
 
-    parser.add_argument('--precursor_mass_tolerance', type=int, default=500)
-    parser.add_argument('--precursor_mass_units', default='daltons')
-    parser.add_argument('--precursor_true_tolerance', type=int, default=20)
-    parser.add_argument('--precursor_true_units', default='ppm')
-    parser.add_argument('--fragment_mass_tolerance', type=int, default=20)
-    parser.add_argument('--fragment_mass_units', default='ppm')
+    add_msfragger_flags(parser)
 
     parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
                         action='store_true', default=False)
@@ -143,12 +138,7 @@ def parse_run_msfragger(subparsers, parser_name):
 
     parser.add_argument('--msfragger_jar', help='Path to MSFragger jar-file', required=True)
 
-    parser.add_argument('--precursor_mass_tolerance', type=int, default=500)
-    parser.add_argument('--precursor_mass_units', default='daltons')
-    parser.add_argument('--precursor_true_tolerance', type=int, default=20)
-    parser.add_argument('--precursor_true_units', default='ppm')
-    parser.add_argument('--fragment_mass_tolerance', type=int, default=20)
-    parser.add_argument('--fragment_mass_units', default='ppm')
+    add_msfragger_flags(parser)
 
     parser.add_argument('--min_charge', type=int, default=0, help='Leave min at 0 for no filtering')
     parser.add_argument('--max_charge', type=int, default=0)
@@ -157,6 +147,16 @@ def parse_run_msfragger(subparsers, parser_name):
 
     parser.add_argument('-v', '--verbose', help='Output detailed diagnostic information',
                         action='store_true', default=False)
+
+
+def add_msfragger_flags(parser):
+
+    parser.add_argument('--precursor_mass_tolerance', type=float, default=500)
+    parser.add_argument('--precursor_mass_units', default='Da')
+    parser.add_argument('--precursor_true_tolerance', type=float, default=20)
+    parser.add_argument('--precursor_true_units', default='ppm')
+    parser.add_argument('--fragment_mass_tolerance', type=float, default=20)
+    parser.add_argument('--fragment_mass_units', default='ppm')
 
 
 def parse_postproc(subparsers, parser_name):
